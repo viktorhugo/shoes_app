@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shoes_app/presentation/widgets/button_orange.dart';
 
 class AddCarButton extends StatelessWidget {
 
@@ -14,13 +15,22 @@ class AddCarButton extends StatelessWidget {
         width: double.infinity,
         height: 100,
         decoration: BoxDecoration(
-          color: Colors.grey.withOpacity(0.15),
+          color: Colors.grey.withOpacity(0.10),
           borderRadius: BorderRadius.circular(100)
         ),
         child: Row(
           children: [ 
             const SizedBox(width: 20,),
-            Text('\$$amount', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold ),)
+            
+            ///*price
+            Text('\$$amount', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold ),),
+            
+            const Spacer(),
+
+            ///*priceButton
+            const ButtonOrange(text: 'Add to cart'),
+
+            const SizedBox(width: 20,),
           ],
         ),
       ),
