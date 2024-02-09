@@ -1,4 +1,9 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:shoes_app/helpers/helpers.dart';
+import 'package:shoes_app/presentation/providers/shoe_provider.dart';
 import 'package:shoes_app/presentation/widgets/widgets.dart';
 
 
@@ -8,13 +13,19 @@ class ShoeDescPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    changeStatusLight();
+
     return  Scaffold(
       body: Column(
         children: [ 
 
           Stack(
             children: [
-              const ShoeSizePreview(fullScreen: true),
+              const Hero(
+                tag:'shoe-1',
+                child: ShoeSizePreview(fullScreen: true)
+              ),
               Positioned(
                 top: 80,
                 child: FloatingActionButton(
@@ -22,7 +33,10 @@ class ShoeDescPage extends StatelessWidget {
                   elevation: 0,
                   highlightElevation: 0,
                   child: const Icon(Icons.chevron_left, color: Colors.white, size: 60,),
-                  onPressed: () {}
+                  onPressed: () {
+                    changeStatusDark();
+                    context.pop();
+                  }
                 )
               )
             ],
@@ -126,18 +140,33 @@ class _ColorsShoesAndMore extends StatelessWidget {
               children: [
                 Positioned(
                   left: 90,
-                  child: _RoundedSelectShoeColor(color: Color(0xffC6D642))
+                  child: _RoundedSelectShoeColor(
+                    color: Color(0xffC6D642),
+                    index: 4,
+                    imageUrl: 'assets/imgs/verde.png',
+                  )
                 ),
                 Positioned(
                   left: 60,
-                  child: _RoundedSelectShoeColor(color: Color(0xffFFAD29))
+                  child: _RoundedSelectShoeColor(
+                    color: Color(0xffFFAD29),
+                    index: 3,
+                    imageUrl: 'assets/imgs/amarillo.png',
+                  )
                 ),
                 Positioned(
                   left: 30,
-                  child: _RoundedSelectShoeColor(color: Color(0xff2099F1))
+                  child: _RoundedSelectShoeColor(
+                    color: Color(0xff2099F1),
+                    index: 2,
+                    imageUrl: 'assets/imgs/azul.png',
+                  )
                 ),
-                _RoundedSelectShoeColor(color: Color(0xff364D56)),
-            
+                _RoundedSelectShoeColor(
+                  color: Color(0xff364D56),
+                  index: 1,
+                  imageUrl: 'assets/imgs/negro.png',
+                ),
               ],
             )
           ),
@@ -152,20 +181,34 @@ class _ColorsShoesAndMore extends StatelessWidget {
 class _RoundedSelectShoeColor extends StatelessWidget {
 
   final Color color;
+  final int index;
+  final String imageUrl;
 
   const _RoundedSelectShoeColor({
     super.key, 
-    required this.color,
+    required this.color, 
+    required this.index, 
+    required this.imageUrl,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 45,
-      height: 45,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle
+
+    final shoeProvider = Provider.of<ShoeProvider>(context, listen: false);
+
+    return FadeInLeft(
+      delay: Duration(milliseconds: index * 100),
+      duration: const Duration(milliseconds: 300),
+      child: GestureDetector(
+        onTap: () => shoeProvider.assetImage = imageUrl,
+        child: Container(
+          width: 45,
+          height: 45,
+          decoration: BoxDecoration(
+            color: color,
+            shape: BoxShape.circle
+          ),
+        ),
       ),
     );
   }
@@ -195,7 +238,11 @@ class _AmountBuyNow extends StatelessWidget {
               const Spacer(),
         
               ///*priceButton
-              const ButtonOrange(text: 'Buy Now', heightButton: 40, widthButton: 120),
+              Bounce(
+                delay: const Duration(seconds: 1),
+                from: 8,
+                child: const ButtonOrange(text: 'Buy Now', heightButton: 40, widthButton: 120)
+              ),
           ],
         ),
       ),

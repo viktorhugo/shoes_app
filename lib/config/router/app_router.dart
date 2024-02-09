@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shoes_app/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/shoe-desc',
+  initialLocation: '/shoe',
   routes: [
     GoRoute(
       path: '/',
